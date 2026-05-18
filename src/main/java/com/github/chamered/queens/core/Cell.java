@@ -7,7 +7,7 @@ public class Cell {
     private final int regionId;
     private CellState state;
 
-    public Cell(int row, int col, int regionId, CellState state) {
+    public Cell(int row, int col, int regionId) {
         this.row = row;
         this.col = col;
         this.regionId = regionId;
