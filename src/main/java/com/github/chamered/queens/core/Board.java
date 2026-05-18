@@ -25,4 +25,35 @@ public class Board {
     public int getGridSize() {
         return gridSize;
     }
+
+    public boolean placeQueen(int row, int col) {
+        if (isCellOutOfBounds(row, col)) {
+            return false;
+        }
+
+        grid[row][col].setState(CellState.QUEEN);
+        return true;
+    }
+
+    public boolean placeCross(int row, int col) {
+        if (isCellOutOfBounds(row, col)) {
+            return false;
+        }
+
+        grid[row][col].setState(CellState.CROSSED);
+        return true;
+    }
+
+    public boolean clearCell(int row, int col) {
+        if (isCellOutOfBounds(row, col)) {
+            return false;
+        }
+
+        grid[row][col].setState(CellState.EMPTY);
+        return true;
+    }
+
+    private boolean isCellOutOfBounds(int row, int col) {
+        return row < 0 || row >= gridSize || col < 0 || col >= gridSize;
+    }
 }

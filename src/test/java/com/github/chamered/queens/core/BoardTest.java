@@ -34,4 +34,32 @@ class BoardTest {
         Cell cellC = board.getCell(1, 2);
         assertEquals(2, cellC.getRegionId(), "The cell at (2,1) must belong to region 3");
     }
+
+    @Test
+    void testPlaceQueenAndClearAll() {
+        int[][] map = {{1, 1}, {1, 1}};
+        Board board = new Board(map);
+
+        boolean success = board.placeQueen(0, 1);
+
+        assertTrue(success, "Placing a queen in valid bounds must return true");
+        assertTrue(board.getCell(0, 1).isQueen(), "The cell (0,1) must contain a queen");
+
+        board.clearCell(0, 1);
+
+        assertTrue(board.getCell(0, 1).isEmpty(), "The cell must be returned empty");
+    }
+
+    @Test
+    void testOutOfBoundsPlacement() {
+        int[][] map = {{1, 1}, {1, 1}};
+        Board board = new Board(map);
+
+        assertFalse(board.placeQueen(-1, 0), "Negative coordinates must evaluate to false");
+        assertFalse(board.placeCross(2, 2), "Coordinates beyond gridSize must evaluate to false");
+
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+           board.getCell(5, 5);
+        });
+    }
 }
