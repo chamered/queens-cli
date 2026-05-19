@@ -1,5 +1,7 @@
 # Queens CLI 👑
 
+[![Java CI with Maven](https://github.com/chamered/queens-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/chamered/queens-cli/actions/workflows/ci.yml)
+
 A terminal-based implementation of the popular LinkedIn logic puzzle "Queens", written completely in Java. 
 
 This project was created as a hands-on exercise to practice Object-Oriented Programming (OOP), build automation with Maven, and unit testing with JUnit.
