@@ -1,5 +1,10 @@
 package com.github.chamered.queens.core;
 
+/**
+ * Represents a single square cell on the Queens puzzle board.
+ * Holds its positional coordinates, the region it belongs to,
+ * and its current state (empty, queen, or crossed).
+ */
 public class Cell {
 
     private final int row;

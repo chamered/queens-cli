@@ -3,6 +3,11 @@ package com.github.chamered.queens.core;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents the game board for the Queens logic puzzle.
+ * Responsible for initializing the grid layout based on a given region map
+ * and managing the placement or removal of queens and crosses.
+ */
 public class Board {
 
     private final int gridSize;

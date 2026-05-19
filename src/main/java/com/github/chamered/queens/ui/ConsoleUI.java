@@ -5,6 +5,10 @@ import com.github.chamered.queens.core.Cell;
 
 import java.util.Scanner;
 
+/**
+ * Handles the terminal-based user interface for the Queens game.
+ * Responsible for rendering the board with color-coded regions and reading user input.
+ */
 public class ConsoleUI {
 
     private final Scanner scanner;

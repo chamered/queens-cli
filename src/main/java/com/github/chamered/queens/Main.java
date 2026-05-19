@@ -3,6 +3,10 @@ package com.github.chamered.queens;
 import com.github.chamered.queens.core.Board;
 import com.github.chamered.queens.ui.ConsoleUI;
 
+/**
+ * The main entry point for the Queens CLI application.
+ * Initializes a sample game board and starts the console interface.
+ */
 public class Main {
     public static void main(String[] args) {
         int[][] sampleLevel = {
