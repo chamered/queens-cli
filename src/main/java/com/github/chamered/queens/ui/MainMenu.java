@@ -1,5 +1,7 @@
 package com.github.chamered.queens.ui;
 
+import com.github.chamered.queens.core.ANSIColors;
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -15,10 +17,18 @@ public class MainMenu {
         printLogo();
 
         File folder = new File("levels");
-        File[] listOfFiles = folder.listFiles();
+        if (!folder.exists()) {
+            folder.mkdirs();
+            System.out.println(ANSIColors.getTextColor(2) + "⚠️ 'levels' folder not found. I just created it for you!" + ANSIColors.getTextColor(0));
+            System.out.println(ANSIColors.getTextColor(4) + "👉 Please put your .txt files there and restart the game." + ANSIColors.getTextColor(0));
+            return null;
+        }
+
+        File[] listOfFiles = folder.listFiles(((dir, name) -> name.endsWith(".txt")));
 
         if (listOfFiles == null || listOfFiles.length == 0) {
-            System.out.println("No levels found in the 'levels/' folder.");
+            System.out.println(ANSIColors.getTextColor(2) + "⚠️ No levels found in the 'levels/' folder." + ANSIColors.getTextColor(0));
+            System.out.println(ANSIColors.getTextColor(4) + "👉 Add some .txt files and restart the game!" + ANSIColors.getTextColor(0));
             return null;
         }
 
@@ -41,10 +51,10 @@ public class MainMenu {
                 if (choice > 0 && choice <= listOfFiles.length) {
                     return listOfFiles[choice - 1].getPath();
                 } else {
-                    System.out.println("Number out of range. Try again.");
+                    System.out.println(ANSIColors.getTextColor(2) + "Number out of range. Try again." + ANSIColors.getTextColor(0));
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                System.out.println(ANSIColors.getTextColor(2) + "Please enter a valid number." + ANSIColors.getTextColor(0));
             }
         }
     }
@@ -59,6 +69,6 @@ public class MainMenu {
              ████ ▄▄  ██████  ███████ ███████ ██   ████ ███████ 
                        --- TERMINAL EDITION ---
             """;
-        System.out.println("\u001B[33m" + logo + "\u001B[39m");
+        System.out.println(ANSIColors.getTextColor(4) + logo + ANSIColors.getTextColor(0));
     }
 }

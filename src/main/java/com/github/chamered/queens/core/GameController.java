@@ -18,7 +18,12 @@ public class GameController {
         boolean gameWon = false;
 
         System.out.println("Welcome to Queens CLI! 👑");
-        System.out.println("Commands: [Q row col] to place Queen, [X row col] to place Cross, [C row col] to clear cell.");
+        System.out.println("""
+        Commands:
+         - [Q <row> <col>] to place Queen
+         - [X <row> <col>] to place Cross
+         - [C <row> <col>] to clear cell.
+        """);
 
         while (!gameWon) {
             ui.displayBoard(board);
@@ -27,7 +32,7 @@ public class GameController {
 
             boolean validMove = processInput(input);
             if (!validMove) {
-                System.out.println("\u001B[31m" + "Invalid command or coordinates. Please try again." + "\u001B[0m");
+                System.out.println(ANSIColors.getTextColor(2) + "Invalid command or coordinates. Please try again." + ANSIColors.getTextColor(0));
                 continue;
             }
 
