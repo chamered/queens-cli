@@ -38,7 +38,8 @@ In the terminal, use the following commands:
 - [x] Implement core game logic and grid validation (Rows, Columns, Regions, Adjacency)
 - [x] Write rigorous JUnit tests for the game engine
 - [x] Develop the terminal-based User Interface (CLI)
-- [ ] Implement level loading/generation
+- [x] Implement level loading
+- [ ] Implement level generation
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
