@@ -1,6 +1,7 @@
 package com.github.chamered.queens;
 
 import com.github.chamered.queens.core.Board;
+import com.github.chamered.queens.core.GameController;
 import com.github.chamered.queens.ui.ConsoleUI;
 
 /**
@@ -19,12 +20,7 @@ public class Main {
 
         Board board = new Board(sampleLevel);
         ConsoleUI ui = new ConsoleUI();
-
-        board.placeQueen(1, 2);
-        board.placeCross(0, 0);
-        board.placeQueen(4, 4);
-
-        System.out.println("Welcome to Queens CLI!");
-        ui.displayBoard(board);
+        GameController game = new GameController(board, ui);
+        game.play();
     }
 }
