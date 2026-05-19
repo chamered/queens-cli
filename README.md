@@ -7,19 +7,35 @@ This project was created as a hands-on exercise to practice Object-Oriented Prog
 ## 🧠 What is Queens?
 Queens is a logic puzzle where the goal is to place exactly one queen in each row, column, and color region of a grid. Additionally, queens cannot touch each other, not even diagonally.
 
+## ✨ Features
+* **Playable CLI Game:** An interactive console interface to place Queens (`Q`), mark Crosses (`X`), and clear cells (`C`).
+* **Color-coded Grid:** The terminal UI uses ANSI escape codes to display color-coded regions just like the original puzzle.
+* **Real-time Validation:** Core game engine validates rules (Rows, Columns, Regions, Adjacency) to determine if the puzzle is solved.
+* **Rigorous Testing:** Comprehensive JUnit 5 test suite for game logic.
+
 ## 🚀 Technologies Used
 * **Language:** Java (JDK 21+)
 * **Build Tool:** Maven
 * **Testing:** JUnit 5
 
 ## 🛠️ Installation and Setup
-*(Instructions will be added once the initial build is stable)*
+To compile and run the project locally using Maven:
+
+```bash
+mvn clean compile exec:java -Dexec.mainClass="com.github.chamered.queens.Main"
+```
+
+## 🎮 How to Play
+In the terminal, use the following commands:
+* `Q <row> <col>`: Place a Queen
+* `X <row> <col>`: Mark a cell with a Cross
+* `C <row> <col>`: Clear the cell
 
 ## 🗺️ Roadmap
-- [ ] Initialize Maven project structure
-- [ ] Implement core game logic and grid validation (Rows, Columns, Regions, Adjacency)
-- [ ] Write rigorous JUnit tests for the game engine
-- [ ] Develop the terminal-based User Interface (CLI)
+- [x] Initialize Maven project structure
+- [x] Implement core game logic and grid validation (Rows, Columns, Regions, Adjacency)
+- [x] Write rigorous JUnit tests for the game engine
+- [x] Develop the terminal-based User Interface (CLI)
 - [ ] Implement level loading/generation
 
 ## 📄 License
