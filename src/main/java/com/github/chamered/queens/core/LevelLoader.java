@@ -1,24 +1,21 @@
 package com.github.chamered.queens.core;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 public class LevelLoader {
 
-    /**
-     * Loads a level from a text file and converts it to an array of integers.
-     *
-     * @param filePath The file path (e.g., "levels/level1.txt")
-     * @return The level map as an int[][]
-     * @throws IOException If the file doesn't exist or can't be read
-     */
-    public static int[][] loadLevel(String filePath) throws IOException {
-        List<String> lines = Files.readAllLines(Path.of(filePath));
+    public static int[][] loadLevel(String filePath) throws LevelLoadException {
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Path.of(filePath));
+        } catch (Exception e) {
+            throw new LevelLoadException("Unable to read level file: " + filePath, e);
+        }
 
         if (lines.isEmpty()) {
-            throw new IllegalArgumentException("The level file is empty.");
+            throw new LevelLoadException("The level file is empty.");
         }
 
         int gridSize = lines.size();
@@ -29,7 +26,7 @@ public class LevelLoader {
             String[] col = line.trim().split("\\s+");
 
             if (col.length != gridSize) {
-                throw new IllegalArgumentException("Error at line " + row + ": there are " + col.length + " columns instead of " + gridSize);
+                throw new LevelLoadException("Error at line " + row + ": there are " + col.length + " columns instead of " + gridSize);
             }
 
             for (int i = 0; i < gridSize; i++) {

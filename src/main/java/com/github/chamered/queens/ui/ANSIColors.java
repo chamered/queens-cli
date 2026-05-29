@@ -1,4 +1,4 @@
-package com.github.chamered.queens.core;
+package com.github.chamered.queens.ui;
 
 public class ANSIColors {
 

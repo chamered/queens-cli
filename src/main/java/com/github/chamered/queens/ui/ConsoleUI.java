@@ -5,6 +5,8 @@ import com.github.chamered.queens.core.Cell;
 
 import java.util.Scanner;
 
+import com.github.chamered.queens.ui.ANSIColors;
+
 /**
  * Handles the terminal-based user interface for the Queens game.
  * Responsible for rendering the board with color-coded regions and reading user input.
@@ -14,16 +16,6 @@ public class ConsoleUI {
     private final Scanner scanner;
 
     private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK_TEXT = "\u001B[30m";
-    private static final String[] BACKGROUNDS_COLORS = {
-            "\u001B[41m", // Red
-            "\u001B[42m", // Green
-            "\u001B[43m", // Yellow
-            "\u001B[44m", // Blue
-            "\u001B[45m", // Purple
-            "\u001B[46m", // Cyan
-            "\u001B[47m"  // White
-    };
 
     public ConsoleUI(Scanner scanner) {
         this.scanner = scanner;
@@ -48,7 +40,7 @@ public class ConsoleUI {
                 String bgColor = getRegionColor(cell.getRegionId());
                 String cellContent = getCellContent(cell);
 
-                System.out.print(bgColor + ANSI_BLACK_TEXT + cellContent + ANSI_RESET);
+                System.out.print(bgColor + ANSIColors.getTextColor(1) + cellContent + ANSI_RESET);
             }
             System.out.println();
         }
@@ -57,14 +49,21 @@ public class ConsoleUI {
     }
 
 
+    public void displayError(String message) {
+        System.out.println(ANSIColors.getTextColor(2) + message + ANSIColors.getTextColor(0));
+    }
+
+    public void displayCongratulations() {
+        System.out.println("🎉 CONGRATULATIONS! You solved the puzzle! 🎉");
+    }
+
     public String getUserInput(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine().trim().toUpperCase();
     }
 
     private String getRegionColor(int regionId) {
-        // Modulo operator ensures we don't go out of bounds if there are many regions
-        return BACKGROUNDS_COLORS[regionId % BACKGROUNDS_COLORS.length];
+        return ANSIColors.getBackgroundColor(2 + (regionId % 7));
     }
 
     private String getCellContent(Cell cell) {

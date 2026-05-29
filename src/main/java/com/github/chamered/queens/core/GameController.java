@@ -25,7 +25,7 @@ public class GameController {
 
             boolean validMove = processInput(input);
             if (!validMove) {
-                System.out.println(ANSIColors.getTextColor(2) + "Invalid command or coordinates. Please try again." + ANSIColors.getTextColor(0));
+                ui.displayError("Invalid command or coordinates. Please try again.");
                 continue;
             }
 
@@ -34,7 +34,7 @@ public class GameController {
 
         if (gameWon) {
             ui.displayBoard(board);
-            System.out.println("🎉 CONGRATULATIONS! You solved the puzzle! 🎉");
+            ui.displayCongratulations();
         }
     }
 

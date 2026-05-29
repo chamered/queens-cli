@@ -1,6 +1,6 @@
 package com.github.chamered.queens.ui;
 
-import com.github.chamered.queens.core.ANSIColors;
+import com.github.chamered.queens.ui.ANSIColors;
 
 import java.io.File;
 import java.util.Scanner;
