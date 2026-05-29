@@ -29,6 +29,9 @@ public class Board {
     }
 
     public Cell getCell(int row, int col) {
+        if (isCellOutOfBounds(row, col)) {
+            return null;
+        }
         return grid[row][col];
     }
 

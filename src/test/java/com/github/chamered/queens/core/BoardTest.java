@@ -58,8 +58,6 @@ class BoardTest {
         assertFalse(board.placeQueen(-1, 0), "Negative coordinates must evaluate to false");
         assertFalse(board.placeCross(2, 2), "Coordinates beyond gridSize must evaluate to false");
 
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-           board.getCell(5, 5);
-        });
+        assertNull(board.getCell(5, 5), "Out of bounds cell must return null");
     }
 }
