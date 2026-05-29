@@ -7,6 +7,7 @@ public class GameController {
     private final Board board;
     private final ConsoleUI ui;
     private final RuleValidator validator;
+    private boolean quitRequested;
 
     public GameController(Board board, ConsoleUI ui) {
         this.board = board;
@@ -17,15 +18,7 @@ public class GameController {
     public void play() {
         boolean gameWon = false;
 
-        System.out.println("Welcome to Queens CLI! 👑");
-        System.out.println("""
-        Commands:
-         - [Q <row> <col>] to place Queen
-         - [X <row> <col>] to place Cross
-         - [C <row> <col>] to clear cell.
-        """);
-
-        while (!gameWon) {
+        while (!gameWon && !quitRequested) {
             ui.displayBoard(board);
 
             String input = ui.getUserInput("Enter your move: ");
@@ -39,11 +32,18 @@ public class GameController {
             gameWon = validator.isGameWon();
         }
 
-        ui.displayBoard(board);
-        System.out.println("🎉 CONGRATULATIONS! You solved the puzzle! 🎉");
+        if (gameWon) {
+            ui.displayBoard(board);
+            System.out.println("🎉 CONGRATULATIONS! You solved the puzzle! 🎉");
+        }
     }
 
     private boolean processInput(String input) {
+        if (input.equalsIgnoreCase("/quit") || input.equalsIgnoreCase("quit")) {
+            quitRequested = true;
+            return true;
+        }
+
         String[] moves = input.split(" ");
 
         try {

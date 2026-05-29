@@ -7,68 +7,121 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private final Scanner scanner;
+    private static final String VERSION = "1.1.0";
 
-    public MainMenu() {
-        this.scanner = new Scanner(System.in);
+    private final Scanner scanner;
+    private boolean firstTime = true;
+
+    public MainMenu(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public String showAndSelectLevel() {
-        printLogo();
-
-        File folder = new File("levels");
-        if (!folder.exists()) {
-            folder.mkdirs();
-            System.out.println(ANSIColors.getTextColor(2) + "⚠️ 'levels' folder not found. I just created it for you!" + ANSIColors.getTextColor(0));
-            System.out.println(ANSIColors.getTextColor(4) + "👉 Please put your .txt files there and restart the game." + ANSIColors.getTextColor(0));
-            return null;
+        if (firstTime) {
+            printLogo();
+            System.out.println(ANSIColors.getTextColor(4) + "                                              v" + VERSION + ANSIColors.getTextColor(0));
+            printHelp();
+            firstTime = false;
         }
-
-        File[] listOfFiles = folder.listFiles(((dir, name) -> name.endsWith(".txt")));
-
-        if (listOfFiles == null || listOfFiles.length == 0) {
-            System.out.println(ANSIColors.getTextColor(2) + "⚠️ No levels found in the 'levels/' folder." + ANSIColors.getTextColor(0));
-            System.out.println(ANSIColors.getTextColor(4) + "👉 Add some .txt files and restart the game!" + ANSIColors.getTextColor(0));
-            return null;
-        }
-
-        System.out.println("Select a level to play:");
-        for (int i = 0; i < listOfFiles.length; i++) {
-            System.out.println((i + 1) + ". " + listOfFiles[i].getName());
-        }
-        System.out.println("0. Exit the game");
 
         while (true) {
-            System.out.print("\nYour choice: ");
-            String input = scanner.nextLine().trim();
+            System.out.print("\n> ");
+            String input = scanner.nextLine().trim().toLowerCase();
 
-            if (input.equals("0")) {
+            if (input.equals("/help") || input.equals("help")) {
+                printHelp();
+                continue;
+            }
+
+            if (input.equals("/levels") || input.equals("levels")) {
+                listLevels();
+                continue;
+            }
+
+            if (input.equals("/exit") || input.equals("exit") || input.equals("0")) {
                 return null;
             }
 
-            try {
-                int choice = Integer.parseInt(input);
-                if (choice > 0 && choice <= listOfFiles.length) {
-                    return listOfFiles[choice - 1].getPath();
-                } else {
-                    System.out.println(ANSIColors.getTextColor(2) + "Number out of range. Try again." + ANSIColors.getTextColor(0));
+            if (input.startsWith("/play ") || input.startsWith("play ")) {
+                String[] parts = input.split("\\s+");
+                try {
+                    int choice = Integer.parseInt(parts[1]);
+                    String path = resolveLevel(choice);
+                    if (path == null) {
+                        continue;
+                    }
+                    return path;
+                } catch (NumberFormatException e) {
+                    System.out.println(ANSIColors.getTextColor(2) + "Usage: /play <N> where N is a level number." + ANSIColors.getTextColor(0));
                 }
-            } catch (NumberFormatException e) {
-                System.out.println(ANSIColors.getTextColor(2) + "Please enter a valid number." + ANSIColors.getTextColor(0));
+                continue;
             }
+
+            System.out.println(ANSIColors.getTextColor(2) + "Unknown command. Type /help to see available commands." + ANSIColors.getTextColor(0));
         }
+    }
+
+    private void printHelp() {
+        System.out.println(ANSIColors.getTextColor(0) + "/help " + ANSIColors.getTextColor(7) + "show this help");
+        System.out.println(ANSIColors.getTextColor(0) + "/levels " + ANSIColors.getTextColor(7) + "list available levels");
+        System.out.println(ANSIColors.getTextColor(0) + "/play <N> " + ANSIColors.getTextColor(7) + "start level N");
+        System.out.println(ANSIColors.getTextColor(0) + "/quit " + ANSIColors.getTextColor(7) + "return to main menu while in game");
+        System.out.println(ANSIColors.getTextColor(0) + "/exit " + ANSIColors.getTextColor(7) + "exit the game");
+        System.out.print(ANSIColors.getTextColor(0));
+    }
+
+    private void listLevels() {
+        File folder = new File("levels");
+        if (!folder.exists()) {
+            folder.mkdirs();
+            System.out.println(ANSIColors.getTextColor(2) + "'levels' folder not found. I just created it for you!" + ANSIColors.getTextColor(0));
+            System.out.println(ANSIColors.getTextColor(4) + "Add some .txt files and restart the game." + ANSIColors.getTextColor(0));
+            return;
+        }
+
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+        if (files == null || files.length == 0) {
+            System.out.println(ANSIColors.getTextColor(2) + "No levels found in 'levels/' folder." + ANSIColors.getTextColor(0));
+            System.out.println(ANSIColors.getTextColor(4) + "Add some .txt files and restart the game." + ANSIColors.getTextColor(0));
+            return;
+        }
+
+        System.out.println("Available levels:");
+        for (int i = 0; i < files.length; i++) {
+            System.out.println("  " + (i + 1) + ". " + files[i].getName());
+        }
+    }
+
+    private String resolveLevel(int choice) {
+        File folder = new File("levels");
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.out.println(ANSIColors.getTextColor(2) + "Levels folder not found." + ANSIColors.getTextColor(0));
+            return null;
+        }
+
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+        if (files == null || files.length == 0) {
+            System.out.println(ANSIColors.getTextColor(2) + "No levels available." + ANSIColors.getTextColor(0));
+            return null;
+        }
+
+        if (choice < 1 || choice > files.length) {
+            System.out.println(ANSIColors.getTextColor(2) + "Number out of range. Use /levels to see available levels." + ANSIColors.getTextColor(0));
+            return null;
+        }
+
+        return files[choice - 1].getPath();
     }
 
     private void printLogo() {
         String logo = """
-            
-             ██████  ██    ██ ███████ ███████ ███    ██ ███████ 
-            ██    ██ ██    ██ ██      ██      ████   ██ ██      
-            ██    ██ ██    ██ █████   █████   ██ ██  ██ ███████ 
-            ██ ▄▄ ██ ██    ██ ██      ██      ██  ██ ██      ██ 
-             ████ ▄▄  ██████  ███████ ███████ ██   ████ ███████ 
-                       --- TERMINAL EDITION ---
+             ██████╗ ██╗   ██╗███████╗███████╗███╗   ██╗███████╗
+            ██╔═══██╗██║   ██║██╔════╝██╔════╝████╗  ██║██╔════╝
+            ██║   ██║██║   ██║█████╗  █████╗  ██╔██╗ ██║███████╗
+            ██║▄▄ ██║██║   ██║██╔══╝  ██╔══╝  ██║╚██╗██║╚════██║
+            ╚██████╔╝╚██████╔╝███████╗███████╗██║ ╚████║███████║
+             ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝
             """;
-        System.out.println(ANSIColors.getTextColor(4) + logo + ANSIColors.getTextColor(0));
+        System.out.print(ANSIColors.getTextColor(4) + logo + ANSIColors.getTextColor(0));
     }
 }

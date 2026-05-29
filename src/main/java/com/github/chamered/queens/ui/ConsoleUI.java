@@ -25,8 +25,8 @@ public class ConsoleUI {
             "\u001B[47m"  // White
     };
 
-    public ConsoleUI() {
-        this.scanner = new Scanner(System.in);
+    public ConsoleUI(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void displayBoard(Board board) {
